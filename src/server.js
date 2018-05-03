@@ -64,7 +64,7 @@ server.get('/p/:name', (req, res) => {
 
   res.send(template({
     body: appString,
-    title: '评估报告 - ' + name,
+    title: name,
     initialState: JSON.stringify(initialState)
   }));
 });

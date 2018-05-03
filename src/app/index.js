@@ -26,7 +26,7 @@ class App extends Component {
         console.log(this.props)
 
         return (
-            <div style={{flexDirection: 'row', textAlign: 'center', width: '100%', height:'100', paddingTop: '40px'}}>
+            <div style={{flexDirection: 'row', textAlign: 'center', width: '100%', height:'100%', paddingTop: '40px'}}>
                 <h2>360评估综合报告</h2>
                 <p>参测人:{this.props.name}</p>
                 <br/>
@@ -35,7 +35,7 @@ class App extends Component {
                 <br/>
                 <h4>各指标得分</h4>
                 <br/>
-                <div style={{height: '100%', width: '800px', display: 'inline-flex'}}>
+                <div style={{width: '100%', display: 'inline-flex'}}>
                     <ReactEcharts option={this.getChartOption(this.props.mate, this.props.up, this.props.self)}
                                   style={{height: '520px', width: '580px'}}
                                   lazyUpdate={true}/>
@@ -46,7 +46,7 @@ class App extends Component {
                 </div>
                 <br/>
                 <br/>
-                <div style={{marginLeft: 'auto', marginRight: 'auto', width: '80%'}}>
+                <div style={{flexDirection: 'row', marginLeft: 'auto', marginRight: 'auto', width: '100%', display: 'inline-flex', flexWrap: 'wrap'}}>
                     <h4>自我认知与他人认知对比分析图</h4>
                     <br/>
                     <ReactEcharts option={this.getSelfKnowOption(this.props.self, this.props.other)}

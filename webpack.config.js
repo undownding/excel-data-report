@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var nodeExternals = require('webpack-node-externals');
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 var isProduction = process.env.NODE_ENV === 'production';
 var productionPluginDefine = isProduction ? [
@@ -58,7 +59,10 @@ module.exports = [
     plugins: clientLoaders.concat([
       new ExtractTextPlugin('index.css', {
         allChunks: true
-      })
+      }),
+      new CopyWebpackPlugin([
+        { from: 'public/**/*', to: '.' }
+      ])
     ]),
     module: {
       loaders: [
