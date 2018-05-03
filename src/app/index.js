@@ -26,13 +26,13 @@ class App extends Component {
         let values = this.calcTotal(this.props.mate, this.props.up, this.props.self)
         let high = ""
         for (let key in values) {
-          if (parseFloat(values[key]) > 4) {
+          if (parseFloat(values[key]) >= 4) {
             high += key + " "
           }
         }
         let low = ""
         for (let key in values) {
-          if (parseFloat(values[key]) < 4) {
+          if (parseFloat(values[key]) < 3) {
             low += key + " "
           }
         }
