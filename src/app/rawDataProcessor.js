@@ -15,7 +15,7 @@ export default class rawDataProcessor {
         let result = [];
 
         // 读取内部问卷情况
-        let workbook = XLSX.readFile('inner.xls', {type: 'binary'});
+        let workbook = XLSX.readFile('assets/public/inner.xls', {type: 'binary'});
         let sheetNames = workbook.SheetNames;
         let worksheet = workbook.Sheets[sheetNames[0]];
 
@@ -44,7 +44,7 @@ export default class rawDataProcessor {
         }
 
         // 读取项目组问卷情况
-        workbook = XLSX.readFile('outter.xls', {type:'binary'});
+        workbook = XLSX.readFile('assets/public/outter.xls', {type:'binary'});
         sheetNames = workbook.SheetNames;
         worksheet = workbook.Sheets[sheetNames[0]];
         json = XLSX.utils.sheet_to_json(worksheet, {header: 0, raw: true});
@@ -77,5 +77,3 @@ export default class rawDataProcessor {
     }
 
 }
-
-
