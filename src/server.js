@@ -22,8 +22,8 @@ function map_to_object(map) {
 
 server.use('/assets', express.static('assets'));
 
-server.get('/', (req, res) => {
-  const name = '杨静';
+server.get('/p/:name', (req, res) => {
+  const name = req.params.name;
   const data = new calc().calc(name);
   console.log(data)
   let self  = new Map();
@@ -42,14 +42,29 @@ server.get('/', (req, res) => {
       outter.set(item, data.outter[item])
   })
   outter = map_to_object(outter)
+  let up = new Map();
+  for (let key in data.up) {
+    up.set(key, data.up[key])
+  }
+  up = map_to_object(up)
+  let mate = new Map();
+  for (let key in data.mate) {
+    mate.set(key, data.mate[key])
+  }
+  mate = map_to_object(mate)
+  let down = new Map();
+  for (let down in data.dowwn) {
+    down.set(key, data.down[key])
+  }
+  down = map_to_object(down)
 
-  const initialState = { name, self, other, outter };
+  const initialState = { name, self, other, outter, up, mate, down };
   const appString = renderToString(<App {...initialState}/>);
   console.log(JSON.stringify(initialState))
 
   res.send(template({
     body: appString,
-    title: 'Hello World from the server',
+    title: '评估报告 - ' + name,
     initialState: JSON.stringify(initialState)
   }));
 });

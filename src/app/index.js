@@ -23,43 +23,45 @@ class App extends Component {
 
     render(){
 
-        // console.log(this.props)
+        console.log(this.props)
 
         return (
             <div style={{flexDirection: 'row', textAlign: 'center', width: '100%', height:'100', paddingTop: '40px'}}>
-                <p><b>个人综合得分</b></p>
-                <p>(此处应有分数)</p>
+                <h2>360评估综合报告</h2>
+                <p>参测人:{this.props.name}</p>
                 <br/>
-                <p><b>各指标得分</b></p>
+                <h4>个人综合得分</h4>
+                <p>{this.getTotalSorce(this.props.mate, this.props.up, this.props.self)}</p>
+                <br/>
+                <h4>各指标得分</h4>
                 <br/>
                 <div style={{height: '100%', width: '800px', display: 'inline-flex'}}>
-                    <ReactEcharts option={this.getChartOption([2.3, 2, 3, 3.7, 4.6, 3.2, 3.2, 4.0, 4.5, 4.3, 3.8])}
+                    <ReactEcharts option={this.getChartOption(this.props.mate, this.props.up, this.props.self)}
                                   style={{height: '520px', width: '580px'}}
                                   lazyUpdate={true}/>
 
-                    <ReactEcharts option={this.getScoreOption(2.0, 2.7, 3.8)}
+                    <ReactEcharts option={this.getScoreOption(this.props.mate, this.props.up, this.props.self)}
                                   style={{height: '200px', width: '280px'}}
                                   lazyUpdate={true}/>
                 </div>
                 <br/>
-                <p>(此处应有得分排序blablabla)</p>
                 <br/>
                 <div style={{marginLeft: 'auto', marginRight: 'auto', width: '80%'}}>
-                    <p><b>自我认知与他人认知对比分析图</b></p>
+                    <h4>自我认知与他人认知对比分析图</h4>
                     <br/>
                     <ReactEcharts option={this.getSelfKnowOption(this.props.self, this.props.other)}
                                   style={{height: '520px', width: '100%'}}
                                   lazyUpdate={true}/>
                     <br/>
-                    <p><b>职位阶级认知对比分析图</b></p>
+                    <h4>职位阶级认知对比分析图</h4>
                     <br/>
-                    <ReactEcharts option={this.getUpDownScoreOption()}
+                    <ReactEcharts option={this.getUpDownScoreOption(this.props.mate, this.props.up, this.props.down)}
                                   style={{height: '800px', width: '100%'}}
                                   lazyUpdate={true}/>
                     <br/>
-                    <p><b>项目组评分</b></p>
+                    <h4>项目组评分</h4>
                     <br/>
-                    <ReactEcharts option={this.getOutsideScoreOption([2.0, 2.7, 3.8, 4.2, 3.3], [1, 4, 3, 5, 4])}
+                    <ReactEcharts option={this.getOutsideScoreOption(this.calcInner(this.props.mate, this.props.up, this.props.self), this.props.outter)}
                                   style={{height: '500px', width: '100%'}}
                                   lazyUpdate={true}/>
                     <br/>
@@ -74,7 +76,38 @@ class App extends Component {
     }
 
     // 个人评估综合得分各维度报告
-    getChartOption(value) {
+    calcTotal(mate, up, self) {
+        const headers = ['战略理解','知识经验','执行效率','项目导向','沟通能力', '团体协作', '责任意识', '情绪控制', '学习成长', '寻求改变', '成就动机']
+        let value = []
+        for (let key in headers) {
+            value[headers[key]] = 0
+        }
+        for (let key in mate) {
+            if (!isNaN(mate[key])) {
+                value[key] += parseFloat(mate[key]) * 0.3
+            }
+        }
+        for (let key in up) {
+            if (!isNaN(up[key])) {
+                value[key] += parseFloat(up[key]) * 0.5
+            }
+        }
+        for (let key in self) {
+            if (!isNaN(self[key])) {
+                value[key] += parseFloat(self[key]) * 0.2
+            }
+        }
+        return value
+    }
+
+    // 个人评估综合得分各维度报告
+    getChartOption(mate, up, self) {
+      let value = this.calcTotal(mate, up, self)
+        let tmp = []
+        for (let key in value) {
+            tmp.push(value[key].toFixed(2))
+        }
+        value = tmp
         return(
             {
                 tooltip: {},
@@ -120,8 +153,20 @@ class App extends Component {
         )
     }
 
+    // 综合得分计算
+    getTotalSorce(mate, up, self) {
+        const result = this.calcTotal(mate, up, self)
+        let a = ((result['战略理解'] + result['知识经验'] + result['执行效率'] + result['项目导向']) / 4).toFixed(2)
+        let p = ((result['沟通能力'] + result['团体协作'] + result['责任意识'] + result['情绪控制']) / 4).toFixed(2)
+        let m = ((result['学习成长'] + result['寻求改变'] + result['成就动机']) / 3).toFixed(2)
+        return (0.5 * a) + (0.3 * p) + (0.2 * m)
+    }
     // 个人评估A/P/M 三模块得分报告
-    getScoreOption(s1, s2, s3) {
+    getScoreOption(mate, up, self) {
+        const result = this.calcTotal(mate, up, self)
+        let s1 = ((result['战略理解'] + result['知识经验'] + result['执行效率'] + result['项目导向']) / 4).toFixed(2)
+        let s2 = ((result['沟通能力'] + result['团体协作'] + result['责任意识'] + result['情绪控制']) / 4).toFixed(2)
+        let s3 = ((result['学习成长'] + result['寻求改变'] + result['成就动机']) / 3).toFixed(2)
       return(
           {
               color: ['#c33d39'],
@@ -236,8 +281,27 @@ class App extends Component {
     }
 
     // 上下级评价分析
-    getUpDownScoreOption(self, up, down) {
+    getUpDownScoreOption(s, u, d) {
+      let self = []
+      for (let key in s) {
+          self.push(s[key])
+      }
 
+      let up = []
+      if (u !== undefined) {
+          for (let key in u) {
+            up.push(u[key])
+        }
+      }
+
+      let down = []
+      if (d !== undefined) {
+        for (let key in s) {
+          if (!d[key]) {
+            down.push(d[key])
+          }
+        }
+      }
 
 
         return(
@@ -286,29 +350,40 @@ class App extends Component {
                         type: 'bar',
                         barGap: 0,
                         label: {},
-                        data: [3, 2, 3, 4, 2, 1, 3, 2, 5, 4, 2].reverse()
+                        data: up.reverse()
                     },
                     {
                         name: '同级',
                         type: 'bar',
                         label: {},
-                        data: [1, 3, 2, 5, 4, 2, 2, 3, 4, 2, 3].reverse()
+                        data: self.reverse()
                     },
                     {
                         name: '下级',
                         type: 'bar',
                         label: {},
-                        data: [1, 3, 2, 5, 4, 2, 2, 3, 4, 2, 3].reverse()
+                        data: down.reverse()
                     },
                 ]
             }
         )
     }
 
+    calcInner(mate, up, self) {
+        const headers = ['项目导向', '沟通能力', '团体协作', '责任意识', '情绪控制']
+        let value = this.calcTotal(mate, up, self)
+        let result = []
+        for (let key in headers) {
+            result.push(value[headers[key]].toFixed(2))
+        }
+        return result
+    }
     getOutsideScoreOption(m, n) {
-        let out = []
+        const headers = ['项目导向', '沟通能力', '团体协作', '责任意识', '情绪控制']
+        let inner = m
+        let outter = []
         for (let key in n) {
-            out.push(n[key].toFixed(2))
+            outter.push(n[key])
         }
         return(
             {
@@ -340,11 +415,11 @@ class App extends Component {
                     // areaStyle: {normal: {}},
                     data : [
                         {
-                            value : {}, //inner.reverse(),
+                            value : outter,
                             name : '项目组评分'
                         },
                         {
-                            value : out.reverse(),
+                            value : inner,
                             name : '内部评分'
                         }
                     ]

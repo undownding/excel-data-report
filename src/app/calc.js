@@ -52,14 +52,14 @@ export default class calc {
         })
 
         rawData
-            .filter(v => v.type == 'outter')
+            .filter(v => v.type == 'outter' && v.targetName == name)
             .forEach((item)=>{
                 tmp.push(item.score)
             })
 
         headers.forEach(header => {
             tmp.forEach(item => {
-                outter[header] += parseInt(item[header])
+                outter[header] += parseFloat(item[header])
             })
             outter[header] = (outter[header] / tmp.length).toFixed(2)
         })
@@ -90,7 +90,7 @@ export default class calc {
 
             headers.forEach(header => {
                 tmp.forEach(item =>{
-                    mate[header]+= item[header]
+                    mate[header]+= parseFloat(item[header])
                 })
                 mate[header] = (mate[header] / tmp.length).toFixed(2)
             })
