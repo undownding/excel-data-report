@@ -23,17 +23,39 @@ class App extends Component {
 
     render(){
 
-        console.log(this.props)
+        let values = this.calcTotal(this.props.mate, this.props.up, this.props.self)
+        let high = ""
+        for (let key in values) {
+          if (parseFloat(values[key]) > 4) {
+            high += key + " "
+          }
+        }
+        let low = ""
+        for (let key in values) {
+          if (parseFloat(values[key]) < 4) {
+            low += key + " "
+          }
+        }
 
         return (
             <div style={{flexDirection: 'row', textAlign: 'center', width: '100%', height:'100%', paddingTop: '40px'}}>
                 <h2>360评估综合报告</h2>
-                <p>参测人:{this.props.name}</p>
+                <div style={{textAlign: 'right', width: '80%'}}><p>参测人:{this.props.name}</p></div>
                 <br/>
-                <h4>个人综合得分</h4>
-                <p>{this.getTotalSorce(this.props.mate, this.props.up, this.props.self)}</p>
+                <div style={{textAlign: 'left', width: '80%'}}>
+                <span className="mdl-chip">
+                    <span className="mdl-chip__text">个人综合得分</span>
+                </span>
                 <br/>
-                <h4>各指标得分</h4>
+                <p style={{marginLeft: '20px'}}>{this.getTotalSorce(this.props.mate, this.props.up, this.props.self)}</p>
+                <br/>
+                </div>
+                <br/>
+                <div style={{textAlign: 'left', width: '80%'}}>
+                    <span className="mdl-chip">
+                        <span className="mdl-chip__text">各指标得分</span>
+                    </span>
+                </div>
                 <br/>
                 <div style={{width: '100%', display: 'inline-flex'}}>
                     <ReactEcharts option={this.getChartOption(this.props.mate, this.props.up, this.props.self)}
@@ -45,32 +67,55 @@ class App extends Component {
                                   lazyUpdate={true}/>
                 </div>
                 <br/>
+                <div style={{textAlign: 'left', width: '80%', marginLeft: '20px'}}>
+                    <p><b>高分项：</b>{high}</p>
+                    <br/>
+                    <p><b>低分项：</b>{low}</p>
+                    <br/>
+                </div>
                 <br/>
                 <div style={{flexDirection: 'row', marginLeft: 'auto', marginRight: 'auto', width: '100%', display: 'inline-flex', flexWrap: 'wrap'}}>
-                    <h4>自我认知与他人认知对比分析图</h4>
+                    <div style={{textAlign: 'left', width: '80%'}}>
+                        <span className="mdl-chip">
+                            <span className="mdl-chip__text">自我认知与他人认知</span>
+                        </span>
+                    </div>
                     <br/>
                     <ReactEcharts option={this.getSelfKnowOption(this.props.self, this.props.other)}
                                   style={{height: '520px', width: '100%'}}
                                   lazyUpdate={true}/>
                     <br/>
-                    <h4>职位阶级认知对比分析图</h4>
+                    <div style={{textAlign: 'left', width: '80%'}}>
+                        <span className="mdl-chip">
+                            <span className="mdl-chip__text">各职位层级认知</span>
+                        </span>
+                    </div>
                     <br/>
                     <ReactEcharts option={this.getUpDownScoreOption(this.props.mate, this.props.up, this.props.down)}
                                   style={{height: '800px', width: '100%'}}
                                   lazyUpdate={true}/>
                     <br/>
-                    <h4>项目组评分</h4>
+                    <div style={{textAlign: 'left', width: '80%'}}>
+                        <span className="mdl-chip">
+                            <span className="mdl-chip__text">项目组内外认知</span>
+                        </span>
+                    </div>
                     <br/>
                     <ReactEcharts option={this.getOutsideScoreOption(this.calcInner(this.props.mate, this.props.up, this.props.self), this.props.outter)}
                                   style={{height: '500px', width: '100%'}}
                                   lazyUpdate={true}/>
                     <br/>
-                    <a>项目组得分：</a><a>（此处应有得分）</a>
-                    <br/>
-                    <a>内部得分：</a><a>（此处应有得分）</a>
-                    <br/>
-                    <br/>
                 </div>
+                <div style={{textAlign: 'left', width: '100%', marginLeft: '20px'}}>
+                    <p>1. 该图用来呈现您在不同指标上，不同评估者的平均分值对比。</p>
+                    <br/>
+                    <p>2. 您可以了解某一类评估者（如：上级）严重的相对更优和相对不足：观察某一类颜色的条形，在平均分值高低进行对比。依此顺延查看其他类评估者。</p>
+                    <br/>
+                    <p>3. 您可以了解自我评估与其他类评估者的整体吻合度：通过观察相同颜色的 3 个条形长短趋势，以查看自我评估在指标上高中低的排序与其他评估者的高中低排序。</p>
+                    <br/>
+                    <p>4. 与您自我评估分值相差较大的指标值得引起您的重视，并请你思索产生这种情况的可能原因，判断是否需要您采取行动以及采取何种行动。</p>
+                </div>
+                <br/>
             </div>
         )
     }

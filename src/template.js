@@ -85,7 +85,6 @@ export default ({ body, title, initialState }) => {
     <div class="mdl-layout--large-screen-only mdl-layout__header-row">
     </div>
     <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-      <h3>${title}</h3>
     </div>
     <div class="mdl-layout--large-screen-only mdl-layout__header-row">
     </div>
