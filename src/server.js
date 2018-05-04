@@ -4,8 +4,18 @@ import { renderToString } from 'react-dom/server';
 import App from './app';
 import template from './template';
 import calc from './app/calc'
+import fs from 'fs'
 
 const server = express();
+
+let date = ''
+fs.readFile('assets/public/date.txt','utf-8',function(err,data){
+    if (err) {
+        date = '内容读取失败'
+    } else {
+        date = data
+    }
+})
 
 function map_to_object(map) {
     const out = Object.create(null)
@@ -58,7 +68,7 @@ server.get('/p/:name', (req, res) => {
   }
   down = map_to_object(down)
 
-  const initialState = { name, self, other, outter, up, mate, down };
+  const initialState = { name, self, other, outter, up, mate, down, date };
   const appString = renderToString(<App {...initialState}/>);
   console.log(JSON.stringify(initialState))
 

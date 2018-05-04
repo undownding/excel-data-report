@@ -40,8 +40,11 @@ class App extends Component {
         return (
             <div style={{flexDirection: 'row', textAlign: 'center', width: '100%', height:'100%', paddingTop: '40px'}}>
                 <h2>360评估综合报告</h2>
-                <div style={{textAlign: 'right', width: '80%'}}><p>参测人:{this.props.name}</p></div>
-                <br/>
+                <div style={{textAlign: 'right', width: '80%'}}>
+                    <p>参测人:{this.props.name}</p>
+                    <br/>
+                    <p>{this.props.date}</p>
+                </div>
                 <div style={{textAlign: 'left', width: '80%'}}>
                 <span className="mdl-chip">
                     <span className="mdl-chip__text">个人综合得分</span>
@@ -109,11 +112,9 @@ class App extends Component {
                 <div style={{textAlign: 'left', width: '100%', marginLeft: '20px'}}>
                     <p>1. 该图用来呈现您在不同指标上，不同评估者的平均分值对比。</p>
                     <br/>
-                    <p>2. 您可以了解某一类评估者（如：上级）严重的相对更优和相对不足：观察某一类颜色的条形，在平均分值高低进行对比。依此顺延查看其他类评估者。</p>
+                    <p>2. 您可以了解自我评估与其他类评估者的整体吻合度：通过观察不同条形长短趋势，以查看自我评估在指标上高中低的排序与其他评估者的高中低排序。</p>
                     <br/>
-                    <p>3. 您可以了解自我评估与其他类评估者的整体吻合度：通过观察相同颜色的 3 个条形长短趋势，以查看自我评估在指标上高中低的排序与其他评估者的高中低排序。</p>
-                    <br/>
-                    <p>4. 与您自我评估分值相差较大的指标值得引起您的重视，并请你思索产生这种情况的可能原因，判断是否需要您采取行动以及采取何种行动。</p>
+                    <p>3. 与您自我评估分值相差较大的指标值得引起您的重视，并请你思索产生这种情况的可能原因，判断是否需要您采取行动以及采取何种行动。</p>
                 </div>
                 <br/>
             </div>
