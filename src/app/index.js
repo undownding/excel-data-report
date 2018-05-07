@@ -131,6 +131,9 @@ class App extends Component {
                     <p><b>您的职业锚为：</b>{this.getCAQMainTitle(this.getCAQMain(this.props.caq))}</p>
                     <br/>
                     <div dangerouslySetInnerHTML={this.getCAQDes(this.getCAQMain(this.props.caq))}></div>
+                    <p><b>您的辅助锚为：</b>{this.getCAQMainTitle(this.getCAQVice(this.props.caq))}</p>
+                    <br/>
+                    <div dangerouslySetInnerHTML={this.getCAQDes(this.getCAQVice(this.props.caq))}></div>
                 </div>
                 <br/>
                 <h4>原始得分柱状图</h4>
@@ -139,7 +142,6 @@ class App extends Component {
                               style={{height: '400px', width: '100%'}}
                               lazyUpdate={true}/>
                 <br/>
-                <p>{this.getCAQVice(this.props.caq)}</p>
             </div>
         )
     }
@@ -669,6 +671,33 @@ class App extends Component {
             }
         } else if (max_nums.length == 2) {
             // 70% 算法
+            let thr = 0;
+            if (caq.filter(v => v >= 0.7 * parseFloat(max_nums[1])).length == 0) {
+                return [] // 没有辅助锚
+            } else {
+                caq.unshift(-999);
+                let thr = 0
+                for (let i = 1; i < caq.length; i++) {
+                    if (parseFloat(caq[i]) >= 0.7 * parseFloat(max_nums[1]) && parseFloat(caq[i]) > parseFloat(caq[thr]) && i != parseInt(max_nums[0]) + 1&& i != parseInt(max_nums[1]) + 1) {
+                        thr = i
+                    }
+                }
+                caq.shift();
+                thr = thr - 1
+                if (thr == -1) {
+                    return []
+                }
+                let sec_nums = [thr]
+                for (let key in caq) {
+                    if (parseInt(caq[key]) == parseInt(caq[thr]) && key != thr) {
+                        sec_nums.push[key]
+                    }
+                }
+                return sec_nums;
+            }
+
+        } else {
+            return [] // 没有辅助锚
         }
     }
 
@@ -691,13 +720,17 @@ class App extends Component {
             '<p>你始终不肯放弃的是去解决看上去无法解决的问题，战胜强硬的对手或克服面临的困难<br/>\n' +
             '对你而言，职业的意义在于允许你战胜不可能的事情</p>',
             '<p>你始终不肯放弃的是平衡并整合个人的、家庭的和职业的需要<br/>\n' +
-            'n 你希望生活中的各个部分能够协调统一向前发展，因此你希望职业有足够的弹性允许你来实现这种整合</p>'
+            '你希望生活中的各个部分能够协调统一向前发展，因此你希望职业有足够的弹性允许你来实现这种整合</p>'
         ]
         let result = ''
         for (let key in value) {
             result += '<b>' + headers[value[key]] + '</b><br/>' + text[value[key]] + '<br/>'
         }
         return {__html:result}
+    }
+
+    getPDPText(value) {
+
     }
 }
 
