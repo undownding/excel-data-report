@@ -501,21 +501,23 @@ class App extends Component {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c} ({d}%)"
             },
-
-            visualMap: {
-                show: false,
-                min: 0,
-                max: 8.5,
-                inRange: {
-                    colorLightness: [0, 0.8]
-                }
+            //
+            // visualMap: {
+            //     show: false,
+            //     min: 0,
+            //     max: 8.5,
+            // },
+            legend: {
+                orient: 'horizontal',
+                left: 'left',
+                data: ['技术/职能型职业锚（TF）', '管理型职业锚（GM）', '自主/独立型职业锚（AU）', '安全/稳定型职业锚（SE）', '',  '创造/创业型职业锚（EC）', '服务型职业锚（SV）', '挑战型职业锚（CH）', '生活型职业锚（LS）']
             },
             series : [
                 {
                     name:'成分构成',
                     type:'pie',
                     radius : '55%',
-                    center: ['50%', '50%'],
+                    center: ['50%', '60%'],
                     data:[
                         {value:(parseFloat(caq[0])/ 5).toFixed(2), name:'技术/职能型职业锚（TF）'},
                         {value:(parseFloat(caq[1])/ 5).toFixed(2), name:'管理型职业锚（GM）'},
@@ -525,37 +527,13 @@ class App extends Component {
                         {value:(parseFloat(caq[5])/ 5).toFixed(2), name:'服务型职业锚（SV）'},
                         {value:(parseFloat(caq[6])/ 5).toFixed(2), name:'挑战型职业锚（CH）'},
                         {value:(parseFloat(caq[7])/ 5).toFixed(2), name:'生活型职业锚（LS）'}
-                    ].sort(function (a, b) { return a.value - b.value; }),
-                    roseType: 'radius',
-                    label: {
-                        normal: {
-                            textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)'
-                            }
-                        }
-                    },
-                    labelLine: {
-                        normal: {
-                            lineStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)'
-                            },
-                            smooth: 0.2,
-                            length: 10,
-                            length2: 20
-                        }
-                    },
+                    ],
                     itemStyle: {
-                        normal: {
-                            color: '#c23531',
-                            shadowBlur: 200,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)',
                         }
-                    },
-
-                    animationType: 'scale',
-                    animationEasing: 'elasticOut',
-                    animationDelay: function (idx) {
-                        return Math.random() * 200;
                     }
                 }
             ]
