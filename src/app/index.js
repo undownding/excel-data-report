@@ -499,7 +499,7 @@ class App extends Component {
         return({
             tooltip : {
                 trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                formatter: "{a} <br/>{b} ({d}%)"
             },
             //
             // visualMap: {
@@ -519,14 +519,14 @@ class App extends Component {
                     radius : '55%',
                     center: ['50%', '60%'],
                     data:[
-                        {value:(parseFloat(caq[0])/ 5).toFixed(2), name:'技术/职能型职业锚（TF）'},
-                        {value:(parseFloat(caq[1])/ 5).toFixed(2), name:'管理型职业锚（GM）'},
-                        {value:(parseFloat(caq[2])/ 5).toFixed(2), name:'自主/独立型职业锚（AU）'},
-                        {value:(parseFloat(caq[3])/ 5).toFixed(2), name:'安全/稳定型职业锚（SE）'},
-                        {value:(parseFloat(caq[4])/ 5).toFixed(2), name:'创造/创业型职业锚（EC）'},
-                        {value:(parseFloat(caq[5])/ 5).toFixed(2), name:'服务型职业锚（SV）'},
-                        {value:(parseFloat(caq[6])/ 5).toFixed(2), name:'挑战型职业锚（CH）'},
-                        {value:(parseFloat(caq[7])/ 5).toFixed(2), name:'生活型职业锚（LS）'}
+                        {value:(parseFloat(caq[0])/ 5).toFixed(2), name: ('技术/职能型职业锚（TF） ' + (parseFloat(caq[0])/ 5).toFixed(2))},
+                        {value:(parseFloat(caq[1])/ 5).toFixed(2), name:('管理型职业锚（GM）' + (parseFloat(caq[1])/ 5).toFixed(2))},
+                        {value:(parseFloat(caq[2])/ 5).toFixed(2), name:('自主/独立型职业锚（AU）' + (parseFloat(caq[2])/ 5).toFixed(2))},
+                        {value:(parseFloat(caq[3])/ 5).toFixed(2), name:('安全/稳定型职业锚（SE）' + (parseFloat(caq[3])/ 5).toFixed(2))},
+                        {value:(parseFloat(caq[4])/ 5).toFixed(2), name:('创造/创业型职业锚（EC）' + (parseFloat(caq[4])/ 5).toFixed(2))},
+                        {value:(parseFloat(caq[5])/ 5).toFixed(2), name:('服务型职业锚（SV）' + (parseFloat(caq[5])/ 5).toFixed(2))},
+                        {value:(parseFloat(caq[6])/ 5).toFixed(2), name:('挑战型职业锚（CH）' + (parseFloat(caq[6])/ 5).toFixed(2))},
+                        {value:(parseFloat(caq[7])/ 5).toFixed(2), name:('生活型职业锚（LS）' + (parseFloat(caq[7])/ 5).toFixed(2))}
                     ],
                     itemStyle: {
                         emphasis: {
@@ -592,12 +592,21 @@ class App extends Component {
                         name: '原始得分',
                         type: 'bar',
                         barGap: 0,
-                        label: {},
+                        label: {
+                            normal: {
+                                position: 'right',
+                                show: true
+                            }
+                        },
                         data: caq.reverse()
                     },
                 ]
             }
         )
+    }
+
+    getCAQMain(caq) {
+
     }
 }
 
