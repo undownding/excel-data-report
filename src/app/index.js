@@ -128,9 +128,9 @@ class App extends Component {
                               lazyUpdate={true}/>
                 <br/>
                 <div style={{textAlign: 'left', width: '80%', marginLeft: '20px'}}>
-                    <p><b>您的职业锚为：</b>挑战型职业锚（CH）</p>
+                    <p><b>您的职业锚为：</b>{this.getCAQMainTitle(this.getCAQMain(this.props.caq))}</p>
                     <br/>
-                    <p>blablablablabla...</p>
+                    <div dangerouslySetInnerHTML={this.getCAQDes(this.getCAQMain(this.props.caq))}></div>
                 </div>
                 <br/>
                 <h4>原始得分柱状图</h4>
@@ -138,6 +138,8 @@ class App extends Component {
                 <ReactEcharts option={this.getCAQOptions2(this.props.caq)}
                               style={{height: '400px', width: '100%'}}
                               lazyUpdate={true}/>
+                <br/>
+                <p>{this.getCAQVice(this.props.caq)}</p>
             </div>
         )
     }
@@ -226,7 +228,7 @@ class App extends Component {
         let a = ((result['战略理解'] + result['知识经验'] + result['执行效率'] + result['项目导向']) / 4).toFixed(2)
         let p = ((result['沟通能力'] + result['团体协作'] + result['责任意识'] + result['情绪控制']) / 4).toFixed(2)
         let m = ((result['学习成长'] + result['寻求改变'] + result['成就动机']) / 3).toFixed(2)
-        return (0.5 * a) + (0.3 * p) + (0.2 * m)
+        return ((0.5 * a) + (0.3 * p) + (0.2 * m)).toFixed(2)
     }
     // 个人评估A/P/M 三模块得分报告
     getScoreOption(mate, up, self) {
@@ -606,7 +608,96 @@ class App extends Component {
     }
 
     getCAQMain(caq) {
+        let max = 0;
+        for (let i = 1; i < caq.length; i++) {
+            if (parseInt(caq[i]) > caq[max]) {
+                max = i
+            }
+        }
+        let max_nums = [max];
+        let second = 0
+        let flag = false
+        caq.unshift(-999);
+        for (let i = 1; i < caq.length; i++) {
+            if (parseFloat(caq[i]) < parseFloat(caq[max + 1])&& parseFloat(caq[i]) > parseFloat(caq[second]) && parseFloat(caq[i]) >= parseFloat(caq[max]) * 0.5 && parseFloat(caq[i]) > second && i !== max + 1) {
+                second = i
+                flag = true
+            }
+        }
+        caq.shift();
+        if (flag) {
+            max_nums.push(second - 1)
+        }
+        return max_nums
+    }
 
+    getCAQMainTitle(value) {
+        const headers = ['技术/职能型职业锚（TF）', '管理型职业锚（GM）', '自主/独立型职业锚（AU）', '安全/稳定型职业锚（SE）', '创造/创业型职业锚（EC）', '服务型职业锚（SV）', '挑战型职业锚（CH）', '生活型职业锚（LS）'];
+        let result = ''
+        for (let key in value) {
+            result += headers[value[key]]
+        }
+        return result
+    }
+
+    getCAQVice(caq) {
+        let max_nums = this.getCAQMain(caq);
+        if (max_nums.length == 1) {
+            let max = parseFloat(caq[max_nums[0]]) - 1.5;
+            let second = 0;
+            caq.unshift(-999);
+            let flag = false
+            for (let i = 1; i < caq.length; i++) {
+                if (parseFloat(caq[i]) < max && parseFloat(caq[i]) > parseFloat(caq[second]) && parseFloat(caq[i]) >= max * 0.5 ) {
+                    second = i
+                    flag = true
+                }
+            }
+            caq.shift();
+            if (!flag) {
+                return []
+            } else {
+                second--
+                // 找出与 caq[second] 相同的作为辅助锚
+                let sec_nums = [second]
+                for (let i = 1; i < caq.length; i++) {
+                    if (parseInt(caq[i]) == parseInt(caq[second]) && i != second) {
+                        sec_nums.push(i)
+                    }
+                }
+                return sec_nums
+            }
+        } else if (max_nums.length == 2) {
+            // 70% 算法
+        }
+    }
+
+    getCAQDes(value) {
+        const headers = ['技术/职能型职业锚（TF）', '管理型职业锚（GM）', '自主/独立型职业锚（AU）', '安全/稳定型职业锚（SE）', '创造/创业型职业锚（EC）', '服务型职业锚（SV）', '挑战型职业锚（CH）', '生活型职业锚（LS）'];
+        const text = [
+            '<p> 如果你的职业锚是技术/职能型，你始终不肯放弃的是在专业领域中展示自己的技能，并不断把自己的技术发展到更高层次的机会<br/>你希望通过施展自己的技能以获得别人的认可，并乐于接受来自专业领域的挑战，你可能愿意成为技术/职能领域的管理者，但管理本身并不能给你带来乐趣，你极力避免全面管理的职位\n' +
+            '            </p>',
+            '<p> 你始终不肯放弃的是升迁到组织更高的管理职位，这样你能够整合其他人的工作，并对组织中某项工作的绩效承担责任<br/>\n' +
+            '                    你希望为最终的结果承担责任，并把组织的成功看做是自己的工作\n' +
+            '                </p>',
+            '<p>你始终不肯放弃的是按照自己的方式工作和生活，你希望留在能够提供足够的灵活性，并由自己来决定何时及如何工作的组织中<br/>\n' +
+            '                你宁可放弃放弃升值加薪的机会，也不愿意丧失自己的自主独立性。为了最大程度自主和独立，你可能创立自己的公司\n' +
+            '            </p>',
+            '<p>你始终不肯放弃的是稳定的或终身雇佣制的职位<br/>你希望有成功的感觉，这样你才可以放松下来。你关注财务安全和就业安全。你对组织忠诚，对雇主言听计从，希望以此获得终身雇佣的承诺</p>',
+            '<p>n 你始终不肯放弃的是凭借自己的能力和冒险愿望，扫除障碍，创立属于自己的公司或组织<br/>' +
+            '你希望向世界证明你有能力创建一家企业，现在你可能在某一组织中为别人工作，但同时你会学习并评估未来的机会，一旦你认为机会成熟，就会尽快的开始自己的创业历程。\n</p>',
+            '<p>你始终不肯放弃的是做一些有价值的事情，比如：解决环境问题、增进人与人之间的和谐、帮助他人等<br/>\n' +
+            '你宁愿离开原来的组织，也不会放弃对这些工作机会的追求</p>',
+            '<p>你始终不肯放弃的是去解决看上去无法解决的问题，战胜强硬的对手或克服面临的困难<br/>\n' +
+            '对你而言，职业的意义在于允许你战胜不可能的事情</p>',
+            '<p>你始终不肯放弃的是平衡并整合个人的、家庭的和职业的需要<br/>\n' +
+            'n 你希望生活中的各个部分能够协调统一向前发展，因此你希望职业有足够的弹性允许你来实现这种整合</p>'
+        ]
+        let result = ''
+        for (let key in value) {
+            result += '<b>' + headers[value[key]] + '</b><br/>' + text[value[key]] + '<br/>'
+        }
+        return {__html:result}
     }
 }
 
