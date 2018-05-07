@@ -117,6 +117,20 @@ class App extends Component {
                     <p>3. 与您自我评估分值相差较大的指标值得引起您的重视，并请你思索产生这种情况的可能原因，判断是否需要您采取行动以及采取何种行动。</p>
                 </div>
                 <br/>
+                <div style={{textAlign: 'left', width: '80%'}}>
+                        <span className="mdl-chip">
+                            <span className="mdl-chip__text">职业锚测试结果</span>
+                        </span>
+                </div>
+                <br/>
+                <ReactEcharts option={this.getCAQOptions(this.props.caq)}
+                              style={{height: '600px', width: '100%'}}
+                              lazyUpdate={true}/>
+                <br/>
+                <div style={{textAlign: 'left', width: '80%', marginLeft: '20px'}}>
+                    <p><b>您的职业锚为：</b>挑战型职业锚（CH）</p>
+                    <br/>
+                </div>
             </div>
         )
     }
@@ -472,6 +486,73 @@ class App extends Component {
                 }]
             }
         )
+    }
+
+    getCAQOptions(caq) {
+        return({
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+
+            visualMap: {
+                show: false,
+                min: 0,
+                max: 8.5,
+                inRange: {
+                    colorLightness: [0, 1]
+                }
+            },
+            series : [
+                {
+                    name:'成分构成',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '50%'],
+                    data:[
+                        {value:(parseFloat(caq[0])/ 5).toFixed(2), name:'技术/职能型职业锚（TF）'},
+                        {value:(parseFloat(caq[1])/ 5).toFixed(2), name:'管理型职业锚（GM）'},
+                        {value:(parseFloat(caq[2])/ 5).toFixed(2), name:'自主/独立型职业锚（AU）'},
+                        {value:(parseFloat(caq[3])/ 5).toFixed(2), name:'安全/稳定型职业锚（SE）'},
+                        {value:(parseFloat(caq[4])/ 5).toFixed(2), name:'创造/创业型职业锚（EC）'},
+                        {value:(parseFloat(caq[5])/ 5).toFixed(2), name:'服务型职业锚（SV）'},
+                        {value:(parseFloat(caq[6])/ 5).toFixed(2), name:'挑战型职业锚（CH）'},
+                        {value:(parseFloat(caq[7])/ 5).toFixed(2), name:'生活型职业锚（LS）'}
+                    ].sort(function (a, b) { return a.value - b.value; }),
+                    roseType: 'radius',
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            lineStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            },
+                            smooth: 0.2,
+                            length: 10,
+                            length2: 20
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#c23531',
+                            shadowBlur: 200,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+
+                    animationType: 'scale',
+                    animationEasing: 'elasticOut',
+                    animationDelay: function (idx) {
+                        return Math.random() * 200;
+                    }
+                }
+            ]
+        })
     }
 }
 
