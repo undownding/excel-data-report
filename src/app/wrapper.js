@@ -11,6 +11,7 @@ export default class Wrapper {
         result['战略理解'] = scores[6]
         result['知识经验'] = ((scores[8] + scores[16] + scores[17] + scores[18]) / 4).toFixed(2)
         result['执行效率'] = scores[7]
+        result['项目导向'] = ((scores[11] + scores[19]) / 2).toFixed(2)
         // Personality
         result['沟通能力'] = ((scores[1] + scores[9] + scores[20]) / 3).toFixed(2)
         result['团体协作'] = ((scores[3] + scores[10] + scores[13]) / 3).toFixed(2)
