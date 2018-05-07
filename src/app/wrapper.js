@@ -56,6 +56,7 @@ export default class Wrapper {
             }
         }
 
+        tmp.shift()
         return tmp
     }
 
