@@ -68,7 +68,7 @@ server.get('/p/:name', (req, res) => {
   }
   down = map_to_object(down)
 
-  const initialState = { name, self, other, outter, up, mate, down, date, caq: data.caq, pdp: data.pdgetCAQDesp };
+  const initialState = { name, self, other, outter, up, mate, down, date, caq: data.caq, pdp: data.pdp };
   const appString = renderToString(<App {...initialState}/>);
   console.log(JSON.stringify(initialState))
 
