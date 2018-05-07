@@ -11,7 +11,7 @@ export default class calc {
         rawData.forEach(item => {
             if (item.type == 'inner'){
                 item.score = new wrapper().calcByInner(item.score)
-            } else { // outter
+            } else if (item.type == 'outter'){ // outter
                 item.score = new wrapper().calcByOutter(item.score)
             }
         })
