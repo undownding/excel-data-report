@@ -130,7 +130,14 @@ class App extends Component {
                 <div style={{textAlign: 'left', width: '80%', marginLeft: '20px'}}>
                     <p><b>您的职业锚为：</b>挑战型职业锚（CH）</p>
                     <br/>
+                    <p>blablablablabla...</p>
                 </div>
+                <br/>
+                <h4>原始得分柱状图</h4>
+                <br/>
+                <ReactEcharts option={this.getCAQOptions2(this.props.caq)}
+                              style={{height: '400px', width: '100%'}}
+                              lazyUpdate={true}/>
             </div>
         )
     }
@@ -500,7 +507,7 @@ class App extends Component {
                 min: 0,
                 max: 8.5,
                 inRange: {
-                    colorLightness: [0, 1]
+                    colorLightness: [0, 0.8]
                 }
             },
             series : [
@@ -553,6 +560,66 @@ class App extends Component {
                 }
             ]
         })
+    }
+
+    getCAQOptions2(caq) {
+        return(
+            {
+                // color: ['#003366', '#006699'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['原始得分']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    show: true,
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'center',
+                    // feature: {
+                    //     mark: {show: true},
+                    //     dataView: {show: true, readOnly: false},
+                    //     magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                    //     restore: {show: true},
+                    //     saveAsImage: {show: true}
+                    // }
+                },
+                calculable: true,
+                yAxis: [
+                    {
+                        type: 'category',
+                        axisTick: {show: false},
+                        data: ['技术/职能型职业锚（TF）', '管理型职业锚（GM）', '自主/独立型职业锚（AU）', '安全/稳定型职业锚（SE）', '创造/创业型职业锚（EC）', '服务型职业锚（SV）', '挑战型职业锚（CH）', '生活型职业锚（LS）'].reverse()
+                    }
+                ],
+                xAxis: [
+                    {
+                        type: 'value',
+                        min: 0,
+                        max: 45
+                    }
+                ],
+                series: [
+                    {
+                        name: '原始得分',
+                        type: 'bar',
+                        barGap: 0,
+                        label: {},
+                        data: caq.reverse()
+                    },
+                ]
+            }
+        )
     }
 }
 
