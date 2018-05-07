@@ -11,8 +11,15 @@ export default class calc {
         rawData.forEach(item => {
             if (item.type == 'inner'){
                 item.score = new wrapper().calcByInner(item.score)
+                item.caq = []
+                item.pdp = []
             } else if (item.type == 'outter'){ // outter
                 item.score = new wrapper().calcByOutter(item.score)
+                item.caq = []
+                item.pdp = []
+            } else {
+                item.caq = new wrapper().calcCAQ(item.caq, item.high)
+                item.pdp = new wrapper().calcPDP(item.pdp)
             }
         })
 
@@ -117,6 +124,15 @@ export default class calc {
             })
         }
 
+        // raw & caq
+        let caq = []
+        let pdp = []
+        rawData.filter(v => v.type == 'ceping' && v.name == name)
+            .forEach(item => {
+                caq = item.caq
+                pdp = item.pdp
+                }
+            )
         return (
             {
                 self: self, // 自评
@@ -124,7 +140,8 @@ export default class calc {
                 outter: outter, // 项目组评分
                 up: up, //上级评分
                 mate: mate, //同级评分
-                down: down // 下级评分
+                down: down, // 下级评分
+                caq, pdp
             }
         )
     }
