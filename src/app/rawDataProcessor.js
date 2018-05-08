@@ -78,7 +78,7 @@ export default class rawDataProcessor {
         json = XLSX.utils.sheet_to_json(worksheet, {header: 0, raw: true});
 
 
-        for (let i = 1; i < json.length; i++) {
+        for (let i = 1; i <= json.length; i++) {
             const nameCol = XLSX.utils.encode_cell({r: i, c: 6});
             const caq = [];
             caq.push(-1);
