@@ -670,7 +670,7 @@ class App extends Component {
             caq.unshift(-999);
             let flag = false
             for (let i = 1; i < caq.length; i++) {
-                if (parseFloat(caq[i]) < max && parseFloat(caq[i]) > parseFloat(caq[second]) && parseFloat(caq[i]) >= max * 0.5 ) {
+                if (parseFloat(caq[i]) < max && parseFloat(caq[i]) > parseFloat(caq[second]) && parseFloat(caq[i]) >= max - 2) {
                     second = i
                     flag = true
                 }
