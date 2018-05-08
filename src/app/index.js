@@ -537,20 +537,26 @@ class App extends Component {
                     radius : '55%',
                     center: ['50%', '60%'],
                     data:[
-                        {value:(parseFloat(caq[0])/ 5).toFixed(2), name:('技术/职能型职业锚（TF） ')},
-                        {value:(parseFloat(caq[1])/ 5).toFixed(2), name:('管理型职业锚（GM）')},
-                        {value:(parseFloat(caq[2])/ 5).toFixed(2), name:('自主/独立型职业锚（AU）')},
-                        {value:(parseFloat(caq[3])/ 5).toFixed(2), name:('安全/稳定型职业锚（SE）')},
-                        {value:(parseFloat(caq[4])/ 5).toFixed(2), name:('创造/创业型职业锚（EC）')},
-                        {value:(parseFloat(caq[5])/ 5).toFixed(2), name:('服务型职业锚（SV）')},
-                        {value:(parseFloat(caq[6])/ 5).toFixed(2), name:('挑战型职业锚（CH）')},
-                        {value:(parseFloat(caq[7])/ 5).toFixed(2), name:('生活型职业锚（LS）')}
+                        {value: caq[0], name:('技术/职能型职业锚（TF） ')},
+                        {value: caq[1], name:('管理型职业锚（GM）')},
+                        {value: caq[2], name:('自主/独立型职业锚（AU）')},
+                        {value: caq[3], name:('安全/稳定型职业锚（SE）')},
+                        {value: caq[4], name:('创造/创业型职业锚（EC）')},
+                        {value: caq[5], name:('服务型职业锚（SV）')},
+                        {value: caq[6], name:('挑战型职业锚（CH）')},
+                        {value: caq[7], name:('生活型职业锚（LS）')}
                     ],
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        },
+                        normal: {
+                            label: {
+                                show: true,
+                                formatter: '{b} {d}%'
+                            }
                         }
                     }
                 }
@@ -778,6 +784,12 @@ class App extends Component {
                             shadowBlur: 10,
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        },
+                        normal: {
+                            label: {
+                                show: true,
+                                formatter: '{b} {c}%'
+                            }
                         }
                     }
                 }
