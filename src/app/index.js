@@ -867,7 +867,7 @@ class App extends Component {
         const max = Math.max.apply(null, value)
         let result = ''
         for (let key in value) {
-            if (value[key] > max - 5) max_nums.push(key)
+            if (value[key] > max - 3) max_nums.push(key)
         }
         if (max_nums.length == 1) {
             result += headers[max_nums[0]]
