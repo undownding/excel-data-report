@@ -788,7 +788,7 @@ class App extends Component {
                         normal: {
                             label: {
                                 show: true,
-                                formatter: '{b} {c}%'
+                                formatter: '{b} {d}%'
                             }
                         }
                     }
