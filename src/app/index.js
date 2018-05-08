@@ -148,7 +148,11 @@ class App extends Component {
                         </span>
                 </div>
                 <br/>
+                <ReactEcharts option={this.getPDPChart(this.props.pdp)}
+                              style={{height: '600px', width: '100%'}}
+                              lazyUpdate={true}/>
                 <div style={{textAlign: 'left', width: '80%', marginLeft: '20px'}}>
+                    <br/>
                     <p><b>您的职业锚为：</b></p><div dangerouslySetInnerHTML={this.getPDPText(this.props.pdp)}/>
                 </div>
                 <br/>
@@ -348,13 +352,13 @@ class App extends Component {
                       type: 'bar',
                       barGap: 0,
                       label: {},
-                      data: self.reverse()
+                      data: self.slice().reverse()
                   },
                   {
                       name: '他评',
                       type: 'bar',
                       label: {},
-                      data: other.reverse()
+                      data: other.slice().reverse()
                   },
               ]
           }
@@ -431,19 +435,19 @@ class App extends Component {
                         type: 'bar',
                         barGap: 0,
                         label: {},
-                        data: up.reverse()
+                        data: up.slice().reverse()
                     },
                     {
                         name: '同级',
                         type: 'bar',
                         label: {},
-                        data: self.reverse()
+                        data: self.slice().reverse()
                     },
                     {
                         name: '下级',
                         type: 'bar',
                         label: {},
-                        data: down.reverse()
+                        data: down.slice().reverse()
                     },
                 ]
             }
@@ -533,14 +537,14 @@ class App extends Component {
                     radius : '55%',
                     center: ['50%', '60%'],
                     data:[
-                        {value:(parseFloat(caq[0])/ 5).toFixed(2), name: ('技术/职能型职业锚（TF） ' + (parseFloat(caq[0])/ 5).toFixed(2))},
-                        {value:(parseFloat(caq[1])/ 5).toFixed(2), name:('管理型职业锚（GM）' + (parseFloat(caq[1])/ 5).toFixed(2))},
-                        {value:(parseFloat(caq[2])/ 5).toFixed(2), name:('自主/独立型职业锚（AU）' + (parseFloat(caq[2])/ 5).toFixed(2))},
-                        {value:(parseFloat(caq[3])/ 5).toFixed(2), name:('安全/稳定型职业锚（SE）' + (parseFloat(caq[3])/ 5).toFixed(2))},
-                        {value:(parseFloat(caq[4])/ 5).toFixed(2), name:('创造/创业型职业锚（EC）' + (parseFloat(caq[4])/ 5).toFixed(2))},
-                        {value:(parseFloat(caq[5])/ 5).toFixed(2), name:('服务型职业锚（SV）' + (parseFloat(caq[5])/ 5).toFixed(2))},
-                        {value:(parseFloat(caq[6])/ 5).toFixed(2), name:('挑战型职业锚（CH）' + (parseFloat(caq[6])/ 5).toFixed(2))},
-                        {value:(parseFloat(caq[7])/ 5).toFixed(2), name:('生活型职业锚（LS）' + (parseFloat(caq[7])/ 5).toFixed(2))}
+                        {value:(parseFloat(caq[0])/ 5).toFixed(2), name:('技术/职能型职业锚（TF） ')},
+                        {value:(parseFloat(caq[1])/ 5).toFixed(2), name:('管理型职业锚（GM）')},
+                        {value:(parseFloat(caq[2])/ 5).toFixed(2), name:('自主/独立型职业锚（AU）')},
+                        {value:(parseFloat(caq[3])/ 5).toFixed(2), name:('安全/稳定型职业锚（SE）')},
+                        {value:(parseFloat(caq[4])/ 5).toFixed(2), name:('创造/创业型职业锚（EC）')},
+                        {value:(parseFloat(caq[5])/ 5).toFixed(2), name:('服务型职业锚（SV）')},
+                        {value:(parseFloat(caq[6])/ 5).toFixed(2), name:('挑战型职业锚（CH）')},
+                        {value:(parseFloat(caq[7])/ 5).toFixed(2), name:('生活型职业锚（LS）')}
                     ],
                     itemStyle: {
                         emphasis: {
@@ -612,7 +616,7 @@ class App extends Component {
                                 show: true
                             }
                         },
-                        data: caq.reverse()
+                        data: caq.slice().reverse()
                     },
                 ]
             }
@@ -737,6 +741,48 @@ class App extends Component {
             result += '<b>' + headers[value[key]] + '</b><br/>' + text[value[key]] + '<br/>'
         }
         return {__html: result}
+    }
+
+    getPDPChart(pdp) {
+        return ({
+
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} ({d}%)"
+            },
+            //
+            // visualMap: {
+            //     show: false,
+            //     min: 0,
+            //     max: 8.5,
+            // },
+            legend: {
+                orient: 'horizontal',
+                left: 'left',
+                data: ['老虎型（支配型Dominance）', '孔雀型（表达型Extroversion）','考拉型（耐心型Pace/Patience）', '猫头鹰型（精确型Conformity）', '变色龙型（整合型1/2 Sigma）']
+            },
+            series : [
+                {
+                    name:'成分构成',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value: pdp[0], name:('老虎型（支配型Dominance）')},
+                        {value: pdp[1], name:('孔雀型（表达型Extroversion）')},
+                        {value: pdp[2], name:('考拉型（耐心型Pace/Patience）')},
+                        {value: pdp[3], name:('猫头鹰型（精确型Conformity）')},
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        }
+                    }
+                }
+            ]
+        })
     }
 
     getPDPText(value) {
