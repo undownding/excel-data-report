@@ -665,12 +665,12 @@ class App extends Component {
     getCAQVice(caq) {
         let max_nums = this.getCAQMain(caq);
         if (max_nums.length == 1) {
-            let max = parseFloat(caq[max_nums[0]]) - 1.5;
+            let max = parseFloat(caq[max_nums[0]]) - 2;
             let second = 0;
             caq.unshift(-999);
             let flag = false
             for (let i = 1; i < caq.length; i++) {
-                if (parseFloat(caq[i]) < max && parseFloat(caq[i]) > parseFloat(caq[second]) && parseFloat(caq[i]) >= max - 2) {
+                if (parseFloat(caq[i]) < max && parseFloat(caq[i]) > parseFloat(caq[second]) && parseFloat(caq[i]) >= max) {
                     second = i
                     flag = true
                 }
