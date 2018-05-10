@@ -95,6 +95,7 @@ export default ({ body, title, initialState }) => {
       <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
       <div id="root" class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col"
       style="display: flex; justify-content:center">
+      ${body}
       </div>
     </div>
   </main>
