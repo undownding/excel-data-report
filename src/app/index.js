@@ -153,7 +153,7 @@ class App extends Component {
                               lazyUpdate={true}/>
                 <div style={{textAlign: 'left', width: '80%', marginLeft: '20px'}}>
                     <br/>
-                    <p><b>您的职业锚为：</b></p><div dangerouslySetInnerHTML={this.getPDPText(this.props.pdp)}/>
+                    <p><b>您的职业性格类型为：</b></p><div dangerouslySetInnerHTML={this.getPDPText(this.props.pdp)}/>
                 </div>
                 <br/>
             </div>
