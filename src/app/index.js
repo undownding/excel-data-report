@@ -230,7 +230,15 @@ class App extends Component {
                     data : [
                         {
                             value : value,
-                            name : '各指标得分'
+                            name : '各指标得分',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter:function(params) {
+                                        return params.value;
+                                    }
+                                }
+                            },
                         }
                     ]
                 }]
@@ -288,6 +296,11 @@ class App extends Component {
                       name:'得分',
                       type:'bar',
                       barWidth: '60%',
+                      label: {
+                          normal: {
+                              show: true
+                          }
+                      },
                       data:[s3, s2, s1]
                   }
               ]
@@ -351,13 +364,21 @@ class App extends Component {
                       name: '自评',
                       type: 'bar',
                       barGap: 0,
-                      label: {},
+                      label: {
+                          normal: {
+                              show: true
+                          }
+                      },
                       data: self.slice().reverse()
                   },
                   {
                       name: '他评',
                       type: 'bar',
-                      label: {},
+                      label: {
+                          normal: {
+                              show: true
+                          }
+                      },
                       data: other.slice().reverse()
                   },
               ]
@@ -434,19 +455,31 @@ class App extends Component {
                         name: '上级',
                         type: 'bar',
                         barGap: 0,
-                        label: {},
+                        label: {
+                            normal: {
+                                show: true
+                            }
+                        },
                         data: up.slice().reverse()
                     },
                     {
                         name: '同级',
                         type: 'bar',
-                        label: {},
+                        label: {
+                            normal: {
+                                show: true
+                            }
+                        },
                         data: self.slice().reverse()
                     },
                     {
                         name: '下级',
                         type: 'bar',
-                        label: {},
+                        label: {
+                            normal: {
+                                show: true
+                            }
+                        },
                         data: down.slice().reverse()
                     },
                 ]
@@ -501,11 +534,27 @@ class App extends Component {
                     data : [
                         {
                             value : outter,
-                            name : '项目组评分'
+                            name : '项目组评分',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter:function(params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
                         },
                         {
                             value : inner,
-                            name : '内部评分'
+                            name : '内部评分',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter:function(params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
                         }
                     ]
                 }]
